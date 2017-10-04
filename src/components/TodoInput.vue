@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import {db} from './../config/firebase.js';
+import {db} from './../config/firebase';
 
-var todosRef = db.ref('todos')
+var todosRef = db.ref()
 
 export default {
   name: 'TodoInput',
@@ -20,13 +20,18 @@ export default {
     // Database manipulation are done directly here for the sake of simplicity, but it makes more sense to use actions instead
     addTodo: function() {
       if (this.newTodoText.trim()) {
-        todosRef.push({
+        todosRef.child(`users/${this.uid}/todos`).push({
           text: this.newTodoText,
         })
         this.newTodoText = ''
       }
     },
   },
+  computed: {
+    uid () {
+      return this.$store.getters.getUser.uid
+    }
+  }
 }
 </script>
 

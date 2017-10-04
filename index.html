@@ -6,9 +6,16 @@
   </head>
   <body>
     <div id="app">
-      <todo-input></todo-input>
-      <todo-list></todo-list>
+      <todo-login></todo-login>
+      <div v-if="isLogged">
+        <todo-input></todo-input>
+        <todo-list></todo-list>
+
+        Logado: {{isLogged}}
+        User: {{getUser}}
+
+      </div>
     </div>
-    <script src="dist/build.js"></script>
+    <script src="/dist/build.js"></script>
   </body>
 </html>

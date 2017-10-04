@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexFire from 'vuexfire'
 import { firebaseMutations, firebaseAction } from 'vuexfire'
+import lodash from 'lodash';
 
 Vue.use(Vuex)
 
@@ -10,11 +11,22 @@ export default new Vuex.Store({
   // an object
   strict: true,
   state: {
-    todos: []
+    todos: [],
+    user: [],
+    logged: false,
   },
-  mutations: firebaseMutations,
+  mutations: lodash.merge(firebaseMutations, {
+    update_logged (state, value) {
+      state.logged = value;
+    },
+    update_user (state, obj) {
+        state.user = obj;
+    },
+  }),
   getters: {
-    todos: state => state.todos,
+    todos: state    => state.todos,
+    isLogged: state => state.logged,
+    getUser: state  => state.user,
   },
   actions: {
     setTodosRef: firebaseAction(({
@@ -23,4 +35,5 @@ export default new Vuex.Store({
       bindFirebaseRef('todos', ref)
     }),
   },
+
 })
